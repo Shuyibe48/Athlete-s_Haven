@@ -3,9 +3,11 @@ import Home from "../pages/Home/Home/Home";
 
 import {
     createBrowserRouter,
-  } from "react-router-dom";
+} from "react-router-dom";
 import Login from "../pages/Login/Login";
 import SignUp from "../pages/SignUp/SignUp";
+import Instructors from "../pages/Instructors/Instructors";
+import Classes from "../pages/Classes/Classes";
 
 export const router = createBrowserRouter([
     {
@@ -16,22 +18,22 @@ export const router = createBrowserRouter([
                 path: '/',
                 element: <Home />,
             },
+            {
+                path: 'instructors',
+                element: <Instructors />
+            },
+            {
+                path: 'classes',
+                element: <Classes />
+            },
+            {
+                path: 'login',
+                element: <Login />
+            },
+            {
+                path: 'signup',
+                element: <SignUp />
+            }
         ],
     },
-    { path: '/login', element: <Login /> },
-    { path: '/signup', element: <SignUp /> },
-    // {
-    //     path: '/dashboard',
-    //     element: (
-    //         <PrivateRoutes>
-    //         </PrivateRoutes>
-    //     ),
-    //     children: [
-    //         { path: '/dashboard/my-bookings', element: <MyBookings /> },
-    //         { path: '/dashboard/add-room', element: <AddRoom /> },
-    //         { path: '/dashboard/my-bookings', element: <MyBookings /> },
-    //         { path: '/dashboard/my-listings', element: <MyListings /> },
-    //         { path: '/dashboard/manage-bookings', element: <ManageBookings /> },
-    //     ],
-    // },
 ])
