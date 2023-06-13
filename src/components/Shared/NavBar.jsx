@@ -1,82 +1,105 @@
-import { useState } from "react";
+import { useContext, useState } from 'react';
+import { Link } from 'react-router-dom';
+import { FaUser, FaHome, FaChalkboardTeacher, FaDumbbell, FaBars, FaTimes } from 'react-icons/fa';
+import { AuthContext } from '../../providers/AuthProvider';
 
-const NavBar = ({ isLoggedIn, userProfilePicture }) => {
-  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+const NavBar = () => {
+    const [isMenuOpen, setMenuOpen] = useState(false);
+    const { user, logOut } = useContext(AuthContext)
 
-  const toggleMobileMenu = () => {
-    setIsMobileMenuOpen(!isMobileMenuOpen);
-  };
+    const handleMenuToggle = () => {
+        setMenuOpen(!isMenuOpen);
+    };
 
-  return (
-    <nav className="bg-gray-800">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex items-center justify-between h-16">
-          <div className="flex-shrink-0">
-            <a href="/" className="text-white text-lg font-bold">Athlete's Haven</a>
-          </div>
-          <div className="md:hidden">
-            <button
-              type="button"
-              className="text-gray-300 hover:text-white focus:outline-none focus:text-white"
-              onClick={toggleMobileMenu}
-            >
-              <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                {isMobileMenuOpen ? (
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth="2"
-                    d="M6 18L18 6M6 6l12 12"
-                  />
-                ) : (
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth="2"
-                    d="M4 6h16M4 12h16M4 18h16"
-                  />
-                )}
-              </svg>
-            </button>
-          </div>
-          <div className={`${isMobileMenuOpen ? 'block' : 'hidden'} md:hidden`}>
-            <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3">
-              <a href="/" className="text-gray-300 hover:text-white block px-3 py-2 rounded-md text-base font-medium">Home</a>
-              <a href="/instructors" className="text-gray-300 hover:text-white block px-3 py-2 rounded-md text-base font-medium">Instructors</a>
-              <a href="/classes" className="text-gray-300 hover:text-white block px-3 py-2 rounded-md text-base font-medium">Classes</a>
-              {isLoggedIn ? (
-                <>
-                  <a href="/dashboard" className="text-gray-300 hover:text-white block px-3 py-2 rounded-md text-base font-medium">Dashboard</a>
-                  <div className="flex items-center">
-                    <img src={userProfilePicture} alt="User Profile" className="w-8 h-8 rounded-full" />
-                  </div>
-                </>
-              ) : (
-                <a href="/login" className="text-gray-300 hover:text-white block px-3 py-2 rounded-md text-base font-medium">Login</a>
-              )}
+    const handleLogout = () => {
+        logOut()
+    };
+
+    return (
+        <nav className="bg-gray-800 py-4">
+            <div className="container mx-auto px-4">
+                <div className="flex items-center justify-between">
+                    <div className="flex items-center">
+                        <Link to="/" className="text-white text-lg font-bold">
+                            Athlete's Haven
+                        </Link>
+                        <div className="ml-4 space-x-4 hidden md:flex">
+                            <Link to="/" className="text-gray-300 hover:text-white transition-colors duration-200">
+                                <FaHome />
+                            </Link>
+                            <Link to="/instructors" className="text-gray-300 hover:text-white transition-colors duration-200">
+                                <FaChalkboardTeacher />
+                            </Link>
+                            <Link to="/classes" className="text-gray-300 hover:text-white transition-colors duration-200">
+                                <FaDumbbell />
+                            </Link>
+                        </div>
+                    </div>
+                    <div className="flex items-center space-x-4 md:hidden">
+                        <button
+                            onClick={handleMenuToggle}
+                            className="text-gray-300 hover:text-white transition-colors duration-200"
+                        >
+                            {isMenuOpen ? <FaTimes /> : <FaBars />}
+                        </button>
+                    </div>
+                    <div className={`md:hidden ${isMenuOpen ? 'block' : 'hidden'}`}>
+                        <div className="mt-4 space-y-4">
+                            <Link
+                                to="/"
+                                className="block text-gray-300 hover:text-white transition-colors duration-200"
+                                onClick={handleMenuToggle}
+                            >
+                                Home
+                            </Link>
+                            <Link
+                                to="/instructors"
+                                className="block text-gray-300 hover:text-white transition-colors duration-200"
+                                onClick={handleMenuToggle}
+                            >
+                                Instructors
+                            </Link>
+                            <Link
+                                to="/classes"
+                                className="block text-gray-300 hover:text-white transition-colors duration-200"
+                                onClick={handleMenuToggle}
+                            >
+                                Classes
+                            </Link>
+                        </div>
+                    </div>
+                    <div className="flex items-center space-x-4 hidden md:flex">
+                        {user ? (
+                            <>
+                                <Link to="/dashboard" className="text-gray-300 hover:text-white transition-colors duration-200">
+                                    Dashboard
+                                </Link>
+                                <button
+                                    onClick={handleLogout}
+                                    className="text-gray-300 hover:text-white transition-colors duration-200"
+                                >
+                                    Logout
+                                </button>
+                                <Link to="/" className="flex items-center text-gray-300 hover:text-white transition-colors duration-200">
+                                    <FaUser className="mr-2" />
+                                    <img src={user?.photoURL} alt="Profile" className="h-6 w-6 rounded-full" />
+                                </Link>
+                            </>
+                        ) : (
+                            <>
+                                <Link to="/login" className="text-gray-300 hover:text-white transition-colors duration-200">
+                                    Login
+                                </Link>
+                                <Link to="/signup" className="text-gray-300 hover:text-white transition-colors duration-200">
+                                    Sign In
+                                </Link>
+                            </>
+                        )}
+                    </div>
+                </div>
             </div>
-          </div>
-          <div className="hidden md:block">
-            <div className="ml-10 flex items-baseline space-x-4">
-              <a href="/" className="text-gray-300 hover:text-white px-3 py-2 rounded-md text-sm font-medium">Home</a>
-              <a href="/instructors" className="text-gray-300 hover:text-white px-3 py-2 rounded-md text-sm font-medium">Instructors</a>
-              <a href="/classes" className="text-gray-300 hover:text-white px-3 py-2 rounded-md text-sm font-medium">Classes</a>
-              {isLoggedIn ? (
-                <>
-                  <a href="/dashboard" className="text-gray-300 hover:text-white px-3 py-2 rounded-md text-sm font-medium">Dashboard</a>
-                  <div className="flex items-center">
-                    <img src={userProfilePicture} alt="User Profile" className="w-8 h-8 rounded-full" />
-                  </div>
-                </>
-              ) : (
-                <a href="/login" className="text-gray-300 hover:text-white px-3 py-2 rounded-md text-sm font-medium">Login</a>
-              )}
-            </div>
-          </div>
-        </div>
-      </div>
-    </nav>
-  );
+        </nav>
+    );
 };
 
 export default NavBar;
