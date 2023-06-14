@@ -4,13 +4,14 @@ import { GrLogout } from 'react-icons/gr'
 import { FcSettings } from 'react-icons/fc'
 import { AiOutlineBars } from 'react-icons/ai'
 import { AuthContext } from '../providers/AuthProvider'
+import AdminMenu from './AdminMenu'
 import StudentMenu from './StudentMenu'
 import InstructorMenu from './InstructorMenu'
 const Sidebar = () => {
     const navigate = useNavigate()
     const [toggle, setToggle] = useState(false)
     const { user, logOut } = useContext(AuthContext)
-    const role = 'host'
+    const role = 'admin'
 
     const [isActive, setActive] = useState('false')
     const toggleHandler = event => {
@@ -73,33 +74,23 @@ const Sidebar = () => {
                         </div>
                     </div>
 
-                    {/* Nav Items */}
                     <div className='flex flex-col justify-between flex-1 mt-6'>
+                        {role && <h5 className='text-center font-bold'>{role.toUpperCase()}</h5>}
                         <nav>
-                            {role && role === 'host' ? (
+                            {role && role === 'admin' && (
                                 <>
-                                    <label
-                                        htmlFor='Toggle3'
-                                        className='inline-flex w-full justify-center items-center px-2 rounded-md cursor-pointer text-gray-800'
-                                    >
-                                        <input
-                                            onChange={toggleHandler}
-                                            id='Toggle3'
-                                            type='checkbox'
-                                            className='hidden peer'
-                                        />
-                                        <span className='px-4 py-1 text-gray-100 rounded-l-md bg-gray-800 peer-checked:bg-gray-300'>
-                                            Student
-                                        </span>
-                                        <span className='px-4 py-1 text-gray-100 rounded-r-md bg-gray-400 peer-checked:bg-gray-800'>
-                                            Instructor
-                                        </span>
-                                    </label>
-                                    {/* Menu Links */}
-                                    {toggle ? <StudentMenu /> : <InstructorMenu />}
+                                    <AdminMenu />
                                 </>
-                            ) : (
-                                <InstructorMenu />
+                            )}
+                            {role && role === 'instructor' && (
+                                <>
+                                    <InstructorMenu />
+                                </>
+                            )}
+                            {role && role === 'student' && (
+                                <>
+                                    <StudentMenu />
+                                </>
                             )}
                         </nav>
                     </div>
