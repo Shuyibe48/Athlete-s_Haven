@@ -30,7 +30,7 @@ const ImageSlider = ({ images }) => {
                     <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
                         <h2 className="text-4xl text-white font-bold mb-4">Slide Title</h2>
                         <p className="text-white text-lg mb-8">Slide description</p>
-                        <button className="bg-blue-500 text-white py-2 px-4 rounded">
+                        <button className="bg-gray-800 text-white py-2 px-4 rounded">
                             Slide Button
                         </button>
                     </div>

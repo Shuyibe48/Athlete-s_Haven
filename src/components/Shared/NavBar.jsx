@@ -16,7 +16,7 @@ const NavBar = () => {
     };
 
     return (
-        <nav className="bg-gray-800 py-4">
+        <nav className="bg-gray-800 py-4 fixed w-full z-10">
             <div className="container mx-auto px-4">
                 <div className="flex items-center justify-between">
                     <div className="flex items-center">
@@ -25,13 +25,22 @@ const NavBar = () => {
                         </Link>
                         <div className="ml-4 space-x-4 hidden md:flex">
                             <Link to="/" className="text-gray-300 hover:text-white transition-colors duration-200">
-                                <FaHome />
+                                <div className='flex items-center gap-2'>
+                                    <span>Home</span>
+                                    <FaHome />
+                                </div>
                             </Link>
                             <Link to="/instructors" className="text-gray-300 hover:text-white transition-colors duration-200">
-                                <FaChalkboardTeacher />
+                                <div className='flex items-center gap-2'>
+                                    <span>Instructors</span>
+                                    <FaChalkboardTeacher />
+                                </div>
                             </Link>
                             <Link to="/classes" className="text-gray-300 hover:text-white transition-colors duration-200">
-                                <FaDumbbell />
+                                <div className='flex items-center gap-2'>
+                                    <span>Classes</span>
+                                    <FaDumbbell />
+                                </div>
                             </Link>
                         </div>
                     </div>
