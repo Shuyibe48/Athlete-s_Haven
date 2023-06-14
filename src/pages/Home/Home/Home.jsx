@@ -1,8 +1,12 @@
+import PopularClasses from "../../../components/PopularClasses";
+import Slider from "../../../components/Slider";
+
 const Home = () => {
     return (
-        <div>
-            Home
-        </div>
+        <>
+            <Slider />
+            <PopularClasses />
+        </>
     );
 };
 

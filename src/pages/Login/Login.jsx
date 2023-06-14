@@ -1,11 +1,12 @@
 import { Link, useLocation, useNavigate } from 'react-router-dom'
 import toast from 'react-hot-toast'
 import { FcGoogle } from 'react-icons/fc'
-import { useContext, useRef } from 'react'
+import { useContext, useRef, useState } from 'react'
 // import { saveUser } from '../../api/auth'
 import { AuthContext } from '../../providers/AuthProvider'
 
 const Login = () => {
+    const [show, setShow] = useState(false)
     const { setLoading, signIn, signInWithGoogle, resetPassword } =
         useContext(AuthContext)
     const navigate = useNavigate()
@@ -65,7 +66,7 @@ const Login = () => {
         <div className='flex justify-center items-center min-h-screen mb-16'>
             <div className='flex flex-col max-w-md p-6 rounded-md sm:p-10 bg-gray-100 text-gray-900'>
                 <div className='mb-8 text-center'>
-                    <h1 className='my-3 text-4xl font-bold'>Log In</h1>
+                    <h1 className='my-3 text-4xl font-bold'>LogIn</h1>
                     <p className='text-sm text-gray-400'>
                         Sign in to access your account
                     </p>
@@ -98,14 +99,17 @@ const Login = () => {
                                     Password
                                 </label>
                             </div>
-                            <input
-                                type='password'
-                                name='password'
-                                id='password'
-                                required
-                                placeholder='*******'
-                                className='w-full px-3 py-2 border rounded-md border-gray-300 focus:outline-rose-500 bg-gray-200 text-gray-900'
-                            />
+                            <div className='relative'>
+                                <input
+                                    type={`${show ? 'text' : 'password'}`}
+                                    name='password'
+                                    id='password'
+                                    required
+                                    placeholder='*******'
+                                    className='w-full px-3 py-2 border rounded-md border-gray-300 focus:outline-rose-500 bg-gray-200 text-gray-900'
+                                />
+                                <button className='text-xs font-semibold bg-slate-100 p-2 cursor-pointer absolute inset-y-0 right-0' onClick={() => setShow(!show)}>{show ? 'HIDE' : 'SHOW'}</button>
+                            </div>
                         </div>
                     </div>
 
@@ -114,7 +118,7 @@ const Login = () => {
                             type='submit'
                             className='bg-gray-800 w-full rounded-md py-3 text-white'
                         >
-                                Continue
+                            Continue
                         </button>
                     </div>
                 </form>
