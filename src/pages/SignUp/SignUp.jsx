@@ -1,15 +1,13 @@
 import { Link, useLocation, useNavigate } from 'react-router-dom'
 import toast from 'react-hot-toast'
 import { FcGoogle } from 'react-icons/fc'
-import { useContext, useRef, useState } from 'react'
-import { TbFidgetSpinner } from 'react-icons/tb'
-// import { saveUser } from '../../api/auth'
+import { useContext, useState } from 'react'
 import { AuthContext } from '../../providers/AuthProvider'
+import { saveUser } from '../../api/auth'
 
 const SignUp = () => {
     const [show, setShow] = useState(false)
     const {
-        loading,
         setLoading,
         signInWithGoogle,
         createUser,
@@ -46,7 +44,7 @@ const SignUp = () => {
                         updateUserProfile(name, imageUrl)
                             .then(() => {
                                 toast.success('Signup successful')
-                                // saveUser(result.user)
+                                saveUser(result.user)
                                 navigate(from, { replace: true })
                                 console.log(result);
                             })
