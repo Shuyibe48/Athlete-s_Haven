@@ -2,7 +2,6 @@
 export const saveUser = user => {
     const currentUser = {
         email: user.email,
-        role: 'student',
         name: user.displayName,
         picture: user.photoURL,
     }
@@ -31,7 +30,7 @@ export const makeInstructor = (email, isIns) => {
             'content-type': 'application/json',
         },
         body: JSON.stringify(currentUser),
-    }).then(res => res.json())
+    }).then(res => res.json()).then(data => console.log(data))
 }
 
 
@@ -55,6 +54,13 @@ export const makeAdmin = (email, isAdm) => {
 // Get user
 export const getUser = async () => {
     const response = await fetch(`${import.meta.env.VITE_API_URL}/users`)
+    const user = await response.json()
+    return user
+}
+
+// Get a single user
+export const getASingleUser = async email => {
+    const response = await fetch(`${import.meta.env.VITE_API_URL}/users/${email}`)
     const user = await response.json()
     return user
 }

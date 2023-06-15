@@ -12,12 +12,14 @@ const ManageUsers = () => {
     }, [users])
 
     const instructorButton = (email, isIns) => {
-        setDisableIns(true)
+        setDisableIns(!disableIns)
+        setDisableAdm(false)
         makeInstructor(email, isIns)
     };
 
     const adminButton = (email, isAdm) => {
-        setDisableAdm(true)
+        setDisableAdm(!disableAdm)
+        setDisableIns(false)
         makeAdmin(email, isAdm)
     };
 
@@ -39,21 +41,21 @@ const ManageUsers = () => {
                             />
                             <h3 className="text-lg font-bold mb-2">{user.name}</h3>
                             <p>Email: {user.email}</p>
-                            <p>Role: {user.role}</p>
+                            <p>Role: {user.role || 'student'}</p>
                         </div>
                         <div className="mt-4">
                             <>
                                 <button
                                     disabled={disableIns === true || user.isIns}
                                     className="bg-blue-500 hover:bg-blue-600 text-white font-medium py-2 px-4 rounded-md transition-colors duration-300 mr-2"
-                                    onClick={() => instructorButton(user.email, true)}
+                                    onClick={() => instructorButton(user.email, disableIns)}
                                 >
                                     Make Instructor
                                 </button>
                                 <button
                                     disabled={disableAdm === true || user.isAdm}
                                     className="bg-purple-500 hover:bg-purple-600 text-white font-medium py-2 px-4 rounded-md transition-colors duration-300"
-                                    onClick={() => adminButton(user.email, true)}
+                                    onClick={() => adminButton(user.email, disableAdm)}
                                 >
                                     Make Admin
                                 </button>

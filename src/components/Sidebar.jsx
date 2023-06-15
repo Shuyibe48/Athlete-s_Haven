@@ -1,4 +1,4 @@
-import { useContext, useState } from 'react'
+import { useContext, useEffect, useState } from 'react'
 import { Link, NavLink, useNavigate } from 'react-router-dom'
 import { GrLogout } from 'react-icons/gr'
 import { FcSettings } from 'react-icons/fc'
@@ -7,16 +7,19 @@ import { AuthContext } from '../providers/AuthProvider'
 import AdminMenu from './AdminMenu'
 import StudentMenu from './StudentMenu'
 import InstructorMenu from './InstructorMenu'
+import { getASingleUser } from '../api/auth'
 const Sidebar = () => {
+    const [dbUser, setDbUser] = useState([])
     const navigate = useNavigate()
-    const [toggle, setToggle] = useState(false)
     const { user, logOut } = useContext(AuthContext)
-    const role = 'admin'
+
+    useEffect(() => {
+        getASingleUser(user?.email)
+            .then(data => setDbUser(data))
+    }, [user])
 
     const [isActive, setActive] = useState('false')
-    const toggleHandler = event => {
-        setToggle(event.target.checked)
-    }
+
     // Sidebar Responsive Handler
     const handleToggle = () => {
         setActive(!isActive)
@@ -53,7 +56,7 @@ const Sidebar = () => {
                             <Link to='/dashboard'>
                                 <img
                                     className='object-cover w-6 h-6 mx-2 rounded-full'
-                                    src={user?.photoURL}
+                                    src={dbUser?.picture}
                                     alt='avatar'
                                     referrerPolicy='no-referrer'
                                 />
@@ -63,31 +66,31 @@ const Sidebar = () => {
                         <div className='flex flex-col items-center mt-6 -mx-2'>
                             <Link to='/dashboard'>
                                 <h4 className='mx-2 mt-2 font-medium text-gray-100  hover:underline'>
-                                    {user?.displayName}
+                                    {dbUser?.name}
                                 </h4>
                             </Link>
                             <Link to='/dashboard'>
                                 <p className='mx-2 mt-1 text-sm font-medium text-gray-200  hover:underline'>
-                                    {user?.email}
+                                    {dbUser?.email}
                                 </p>
                             </Link>
                         </div>
                     </div>
 
                     <div className='flex flex-col justify-between flex-1 mt-6'>
-                        {role && <h5 className='text-center font-bold'>{role.toUpperCase()}</h5>}
+                        <h5 className='text-center font-bold'>  {dbUser?.role ? dbUser?.role.toUpperCase() : 'STUDENT'}  </h5>
                         <nav>
-                            {role && role === 'admin' && (
+                            {dbUser?.role && dbUser?.role === 'admin' && (
                                 <>
                                     <AdminMenu />
                                 </>
                             )}
-                            {role && role === 'instructor' && (
+                            {dbUser?.role && dbUser?.role === 'instructor' && (
                                 <>
                                     <InstructorMenu />
                                 </>
                             )}
-                            {role && role === 'student' && (
+                            {dbUser?.role === 'instructor' || dbUser?.role === 'admin' || (
                                 <>
                                     <StudentMenu />
                                 </>
