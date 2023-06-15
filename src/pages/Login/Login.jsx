@@ -37,7 +37,6 @@ const Login = () => {
     const handleGoogleSignIn = () => {
         signInWithGoogle()
             .then(result => {
-                console.log(result.user)
                 // save user to db
                 saveUser(result.user)
                 navigate(from, { replace: true })

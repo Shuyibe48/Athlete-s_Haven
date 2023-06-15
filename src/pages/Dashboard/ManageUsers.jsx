@@ -1,29 +1,37 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import { getUser } from '../../api/auth';
 
 const ManageUsers = () => {
-    const [users, setUsers] = useState([
-        {
-            id: 1,
-            name: 'John Doe',
-            email: 'johndoe@example.com',
-            role: 'student',
-            picture: 'john-doe.jpg',
-        },
-        {
-            id: 2,
-            name: 'Jane Smith',
-            email: 'janesmith@example.com',
-            role: 'student',
-            picture: 'jane-smith.jpg',
-        },
-        {
-            id: 3,
-            name: 'Michael Johnson',
-            email: 'michaeljohnson@example.com',
-            role: 'student',
-            picture: 'michael-johnson.jpg',
-        },
-    ]);
+    // const [users, setUsers] = useState([
+    //     {
+    //         id: 1,
+    //         name: 'John Doe',
+    //         email: 'johndoe@example.com',
+    //         role: 'student',
+    //         picture: 'john-doe.jpg',
+    //     },
+    //     {
+    //         id: 2,
+    //         name: 'Jane Smith',
+    //         email: 'janesmith@example.com',
+    //         role: 'student',
+    //         picture: 'jane-smith.jpg',
+    //     },
+    //     {
+    //         id: 3,
+    //         name: 'Michael Johnson',
+    //         email: 'michaeljohnson@example.com',
+    //         role: 'student',
+    //         picture: 'michael-johnson.jpg',
+    //     },
+    // ]);
+
+    const [users, setUsers] = useState([])
+
+    useEffect(() => {
+        getUser()
+        .then(data => setUsers(data))
+    }, [])
 
     const makeInstructor = (userId) => {
         setUsers((prevUsers) =>
@@ -48,7 +56,7 @@ const ManageUsers = () => {
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                 {users.map((user) => (
                     <div
-                        key={user.id}
+                        key={user._id}
                         className="bg-white shadow-lg rounded-lg p-8 flex flex-col justify-between"
                     >
                         <div>

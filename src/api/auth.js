@@ -1,8 +1,10 @@
-// save a user to database
+// save a user to database as a student
 export const saveUser = user => {
     const currentUser = {
         email: user.email,
         role: 'student',
+        name: user.displayName,
+        picture: user.photoURL,
     }
 
     fetch(`${import.meta.env.VITE_API_URL}/users/${user?.email}`, {
@@ -45,4 +47,12 @@ export const makeAdmin = email => {
         },
         body: JSON.stringify(currentUser),
     }).then(res => res.json())
+}
+
+
+// Get user
+export const getUser = async () => {
+    const response = await fetch(`${import.meta.env.VITE_API_URL}/users`)
+    const user = await response.json()
+    return user
 }
