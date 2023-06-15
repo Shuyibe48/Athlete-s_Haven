@@ -4,6 +4,7 @@ import { FcGoogle } from 'react-icons/fc'
 import { useContext, useRef, useState } from 'react'
 // import { saveUser } from '../../api/auth'
 import { AuthContext } from '../../providers/AuthProvider'
+import { saveUser } from '../../api/auth'
 
 const Login = () => {
     const [show, setShow] = useState(false)
@@ -22,6 +23,7 @@ const Login = () => {
         signIn(email, password)
             .then(result => {
                 console.log(result.user)
+                saveUser(result.user)
                 navigate(from, { replace: true })
             })
             .catch(err => {
@@ -37,7 +39,7 @@ const Login = () => {
             .then(result => {
                 console.log(result.user)
                 // save user to db
-                // saveUser(result.user)
+                saveUser(result.user)
                 navigate(from, { replace: true })
             })
             .catch(err => {
@@ -62,6 +64,8 @@ const Login = () => {
                 toast.error(err.message)
             })
     }
+
+
     return (
         <div className='flex justify-center items-center min-h-screen mb-16'>
             <div className='flex flex-col max-w-md p-6 rounded-md sm:p-10 bg-gray-100 text-gray-900'>
