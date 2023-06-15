@@ -1,31 +1,7 @@
 import { useEffect, useState } from 'react';
-import { getUser } from '../../api/auth';
+import { getUser, makeAdmin, makeInstructor } from '../../api/auth';
 
 const ManageUsers = () => {
-    // const [users, setUsers] = useState([
-    //     {
-    //         id: 1,
-    //         name: 'John Doe',
-    //         email: 'johndoe@example.com',
-    //         role: 'student',
-    //         picture: 'john-doe.jpg',
-    //     },
-    //     {
-    //         id: 2,
-    //         name: 'Jane Smith',
-    //         email: 'janesmith@example.com',
-    //         role: 'student',
-    //         picture: 'jane-smith.jpg',
-    //     },
-    //     {
-    //         id: 3,
-    //         name: 'Michael Johnson',
-    //         email: 'michaeljohnson@example.com',
-    //         role: 'student',
-    //         picture: 'michael-johnson.jpg',
-    //     },
-    // ]);
-
     const [users, setUsers] = useState([])
 
     useEffect(() => {
@@ -33,20 +9,12 @@ const ManageUsers = () => {
         .then(data => setUsers(data))
     }, [])
 
-    const makeInstructor = (userId) => {
-        setUsers((prevUsers) =>
-            prevUsers.map((user) =>
-                user.id === userId ? { ...user, role: 'instructor' } : user
-            )
-        );
+    const instructorButton = (email) => {
+        makeInstructor(email)
     };
 
-    const makeAdmin = (userId) => {
-        setUsers((prevUsers) =>
-            prevUsers.map((user) =>
-                user.id === userId ? { ...user, role: 'admin' } : user
-            )
-        );
+    const adminButton = (email) => {
+        makeAdmin(email)
     };
 
     return (
@@ -74,13 +42,13 @@ const ManageUsers = () => {
                                 <>
                                     <button
                                         className="bg-blue-500 hover:bg-blue-600 text-white font-medium py-2 px-4 rounded-md transition-colors duration-300 mr-2"
-                                        onClick={() => makeInstructor(user.id)}
+                                        onClick={() => instructorButton(user.email)}
                                     >
                                         Make Instructor
                                     </button>
                                     <button
                                         className="bg-purple-500 hover:bg-purple-600 text-white font-medium py-2 px-4 rounded-md transition-colors duration-300"
-                                        onClick={() => makeAdmin(user.id)}
+                                        onClick={() => adminButton(user.email)}
                                     >
                                         Make Admin
                                     </button>
