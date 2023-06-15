@@ -3,18 +3,22 @@ import { getUser, makeAdmin, makeInstructor } from '../../api/auth';
 
 const ManageUsers = () => {
     const [users, setUsers] = useState([])
+    const [disableIns, setDisableIns] = useState(false)
+    const [disableAdm, setDisableAdm] = useState(false)
 
     useEffect(() => {
         getUser()
-        .then(data => setUsers(data))
-    }, [])
+            .then(data => setUsers(data))
+    }, [users])
 
-    const instructorButton = (email) => {
-        makeInstructor(email)
+    const instructorButton = (email, isIns) => {
+        setDisableIns(true)
+        makeInstructor(email, isIns)
     };
 
-    const adminButton = (email) => {
-        makeAdmin(email)
+    const adminButton = (email, isAdm) => {
+        setDisableAdm(true)
+        makeAdmin(email, isAdm)
     };
 
     return (
@@ -38,25 +42,22 @@ const ManageUsers = () => {
                             <p>Role: {user.role}</p>
                         </div>
                         <div className="mt-4">
-                            {user.role === 'student' && (
-                                <>
-                                    <button
-                                        className="bg-blue-500 hover:bg-blue-600 text-white font-medium py-2 px-4 rounded-md transition-colors duration-300 mr-2"
-                                        onClick={() => instructorButton(user.email)}
-                                    >
-                                        Make Instructor
-                                    </button>
-                                    <button
-                                        className="bg-purple-500 hover:bg-purple-600 text-white font-medium py-2 px-4 rounded-md transition-colors duration-300"
-                                        onClick={() => adminButton(user.email)}
-                                    >
-                                        Make Admin
-                                    </button>
-                                </>
-                            )}
-                            {user.role !== 'student' && (
-                                <p className="text-gray-500">Already assigned</p>
-                            )}
+                            <>
+                                <button
+                                    disabled={disableIns === true || user.isIns}
+                                    className="bg-blue-500 hover:bg-blue-600 text-white font-medium py-2 px-4 rounded-md transition-colors duration-300 mr-2"
+                                    onClick={() => instructorButton(user.email, true)}
+                                >
+                                    Make Instructor
+                                </button>
+                                <button
+                                    disabled={disableAdm === true || user.isAdm}
+                                    className="bg-purple-500 hover:bg-purple-600 text-white font-medium py-2 px-4 rounded-md transition-colors duration-300"
+                                    onClick={() => adminButton(user.email, true)}
+                                >
+                                    Make Admin
+                                </button>
+                            </>
                         </div>
                     </div>
                 ))}

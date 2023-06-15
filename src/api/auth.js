@@ -19,9 +19,10 @@ export const saveUser = user => {
 }
 
 // make a instructor
-export const makeInstructor = email => {
+export const makeInstructor = (email, isIns) => {
     const currentUser = {
         role: 'instructor',
+        isIns: isIns
     }
 
     return fetch(`${import.meta.env.VITE_API_URL}/users/${email}`, {
@@ -35,9 +36,10 @@ export const makeInstructor = email => {
 
 
 // make a admin
-export const makeAdmin = email => {
+export const makeAdmin = (email, isAdm) => {
     const currentUser = {
         role: 'admin',
+        isAdm: isAdm
     }
 
     return fetch(`${import.meta.env.VITE_API_URL}/users/${email}`, {
