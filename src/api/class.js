@@ -30,7 +30,7 @@ export const getUserClasses = async email => {
 
 
 // save select class
-export const saveClass = async selectClassInfo=> {
+export const saveClass = async selectClassInfo => {
     const response = await fetch(`${import.meta.env.VITE_API_URL}/saveClass`, {
         method: 'POST',
         headers: {
@@ -49,4 +49,17 @@ export const getAllSelectedClass = async email => {
     const response = await fetch(`${import.meta.env.VITE_API_URL}/saveClass/${email}`)
     const data = await response.json()
     return data
+}
+
+
+// Delete a select class
+export const deleteSelectClass = async id => {
+    const response = await fetch(`${import.meta.env.VITE_API_URL}/saveClass/${id}`, {
+        method: 'DELETE',
+        headers: {
+            'content-type': 'application/json',
+        },
+    })
+    const result = await response.json()
+    return result
 }

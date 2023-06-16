@@ -1,34 +1,24 @@
 import { useContext, useEffect, useState } from "react";
 import { AuthContext } from "../../providers/AuthProvider";
-import { getAllSelectedClass } from "../../api/class";
+import { deleteSelectClass, getAllSelectedClass } from "../../api/class";
 
-const selectedClasses = [
-    {
-        id: 1,
-        name: 'Class A',
-        instructor: 'John Doe',
-        seats: 10,
-        price: 50,
-        image: 'https://images.unsplash.com/photo-1610736342603-4b3620157ad9?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=870&q=80',
-    },
-    {
-        id: 2,
-        name: 'Class B',
-        instructor: 'Jane Smith',
-        seats: 5,
-        price: 70,
-        image: 'https://images.unsplash.com/photo-1544333323-ec9ed3218dd1?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=832&q=80',
-    },
-];
-
-const MySelectedClasses = ({ onDeleteClick, onPayClick }) => {
+const MySelectedClasses = () => {
     const [selectedClasses, setSelectedClasses] = useState([])
-    const {user} = useContext(AuthContext)
-    
+    const { user } = useContext(AuthContext)
+
     useEffect(() => {
         getAllSelectedClass(user?.email)
-        .then(data => setSelectedClasses(data))
+            .then(data => setSelectedClasses(data))
     }, [user])
+
+
+    const onDeleteClick = id => {
+        deleteSelectClass(id)
+        .then(data => {
+            console.log(data)
+            window.alert('deleted')
+        })
+    }
 
 
     return (
@@ -46,13 +36,12 @@ const MySelectedClasses = ({ onDeleteClick, onPayClick }) => {
                         <p className="text-lg">Price: ${course.price}</p>
                         <button
                             className="bg-gray-800 text-white py-2 px-4 rounded-md inline-block mt-4 mr-4"
-                            onClick={() => onDeleteClick(course.id)}
+                            onClick={() => onDeleteClick(course._id)}
                         >
                             Delete
                         </button>
                         <button
                             className="bg-blue-900 text-white py-2 px-4 rounded-md inline-block mt-4"
-                            onClick={() => onPayClick(course.id)}
                         >
                             Pay
                         </button>
