@@ -20,8 +20,9 @@ const Classes = () => {
     }, [user])
 
 
-    const selectClass = (name, host, sets, price, selectStudent) => {
+    const selectClass = (image, name, host, sets, price, selectStudent) => {
         const info = {
+            image,
             name, 
             host,
             sets,
@@ -29,6 +30,10 @@ const Classes = () => {
             selectStudent
         }
         saveClass(info)
+        .then(data => {
+            console.log(data)
+            window.alert('successfully added a class!')
+        })
     }
 
 
@@ -50,7 +55,7 @@ const Classes = () => {
                         <p className="text-lg">Price: ${classItem.price}</p>
                         {currentUser === 'instructor' || currentUser === 'admin' ? (
                             <button
-                                onClick={() => selectClass(classItem.className, classItem.host.name, classItem.availableSeats, classItem.price)}
+                                onClick={() => selectClass(classItem.image, classItem.className, classItem.host.name, classItem.availableSeats, classItem.price)}
                                 disabled
                                 className="bg-gray-300 text-gray-600 py-2 px-4 rounded-md inline-block mt-4 cursor-not-allowed"
                             >
@@ -58,7 +63,7 @@ const Classes = () => {
                             </button>
                         ) : (
                             <button
-                                onClick={() => selectClass(classItem.className, classItem.host.name, classItem.availableSeats, classItem.price, user?.email)}
+                                onClick={() => selectClass(classItem.image, classItem.className, classItem.host.name, classItem.availableSeats, classItem.price, user?.email)}
                                 disabled={classItem.availableSeats === '0'}
                                 className="bg-gray-800 text-white py-2 px-4 rounded-md inline-block mt-4"
                             >

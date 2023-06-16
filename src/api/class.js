@@ -42,3 +42,11 @@ export const saveClass = async selectClassInfo=> {
     const data = await response.json()
     return data
 }
+
+
+// Get all selected class
+export const getAllSelectedClass = async email => {
+    const response = await fetch(`${import.meta.env.VITE_API_URL}/saveClass/${email}`)
+    const data = await response.json()
+    return data
+}
