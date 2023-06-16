@@ -1,36 +1,44 @@
-import { useState } from 'react';
+import { useContext } from "react";
+import { AuthContext } from "../../providers/AuthProvider";
 
 const AddAClass = () => {
-    const [className, setClassName] = useState('');
-    const [classImage, setClassImage] = useState('');
-    const [availableSeats, setAvailableSeats] = useState('');
-    const [price, setPrice] = useState('');
+    const {user} = useContext(AuthContext)
 
-    // Replace with the appropriate values for logged in user/instructor
-    const instructorName = 'John Doe';
-    const instructorEmail = 'johndoe@example.com';
+    console.log(user);
 
-    const handleSubmit = (e) => {
-        e.preventDefault();
+    const handleSubmit = (event) => {
+        event.preventDefault();
 
-        // Logic to create a class in the database
-        const newClass = {
-            className,
-            classImage,
-            instructorName,
-            instructorEmail,
-            availableSeats,
-            price,
-            status: 'pending',
-        };
+        const form = event.target
+        const className = event.target.className.value
+        const instructorName = user?.displayName
+        const email = user?.email
+        const availableSeats = event.target.availableSeats.value
+        const price = event.target.price.value
 
-        console.log('New Class:', newClass);
+        // Image Upload
+        const image = event.target.classImage.files[0]
+        const formData = new FormData()
+        formData.append('image', image)
 
-        // Reset form fields
-        setClassName('');
-        setClassImage('');
-        setAvailableSeats('');
-        setPrice('');
+        const url = `https://api.imgbb.com/1/upload?key=${import.meta.env.VITE_IMGBB_KEY
+            }`
+        fetch(url, {
+            method: 'POST',
+            body: formData,
+        })
+            .then(res => res.json())
+            .then(imageData => {
+                const imageUrl = imageData.data.display_url
+                console.log(imageUrl);
+                form.reset()
+            })
+            .catch(err => {
+                console.log(err.message)
+            })
+
+            console.log(className, instructorName, email, availableSeats, price);
+
     };
 
     return (
@@ -49,8 +57,6 @@ const AddAClass = () => {
                         type="text"
                         id="className"
                         className="border border-gray-300 rounded-md w-full py-2 px-3 focus:outline-none focus:ring focus:border-blue-300"
-                        value={className}
-                        onChange={(e) => setClassName(e.target.value)}
                         required
                     />
                 </div>
@@ -62,9 +68,7 @@ const AddAClass = () => {
                     <input
                         type="file"
                         id="classImage"
-                        value={classImage}
                         accept='image/*'
-                        onChange={(e) => setClassImage(e.target.value)}
                         required
                     />
                 </div>
@@ -77,7 +81,7 @@ const AddAClass = () => {
                         type="text"
                         id="instructorName"
                         className="border border-gray-300 rounded-md w-full py-2 px-3 bg-gray-100"
-                        value={instructorName}
+                        value={user?.displayName}
                         readOnly
                     />
                 </div>
@@ -90,7 +94,7 @@ const AddAClass = () => {
                         type="email"
                         id="instructorEmail"
                         className="border border-gray-300 rounded-md w-full py-2 px-3 bg-gray-100"
-                        value={instructorEmail}
+                        value={user?.email}
                         readOnly
                     />
                 </div>
@@ -103,8 +107,6 @@ const AddAClass = () => {
                         type="number"
                         id="availableSeats"
                         className="border border-gray-300 rounded-md w-full py-2 px-3 focus:outline-none focus:ring focus:border-blue-300"
-                        value={availableSeats}
-                        onChange={(e) => setAvailableSeats(e.target.value)}
                         required
                     />
                 </div>
@@ -117,8 +119,6 @@ const AddAClass = () => {
                         type="number"
                         id="price"
                         className="border border-gray-300 rounded-md w-full py-2 px-3 focus:outline-none focus:ring focus:border-blue-300"
-                        value={price}
-                        onChange={(e) => setPrice(e.target.value)}
                         required
                     />
                 </div>
