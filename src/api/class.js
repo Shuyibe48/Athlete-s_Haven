@@ -27,3 +27,18 @@ export const getUserClasses = async email => {
     const classes = await response.json()
     return classes
 }
+
+
+// save select class
+export const saveClass = async selectClassInfo=> {
+    const response = await fetch(`${import.meta.env.VITE_API_URL}/saveClass`, {
+        method: 'POST',
+        headers: {
+            'content-type': 'application/json',
+        },
+        body: JSON.stringify(selectClassInfo),
+    })
+
+    const data = await response.json()
+    return data
+}

@@ -9,8 +9,6 @@ const PopularClasses = () => {
             .then(data => setClasses(data))
     }, [])
 
-    console.log(classes)
-
     return (
         <div className="py-12 bg-gray-100">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">

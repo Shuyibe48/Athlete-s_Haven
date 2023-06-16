@@ -1,16 +1,37 @@
 import { useContext, useEffect, useState } from "react";
 import { AuthContext } from "../../providers/AuthProvider"
-import { getAllClass } from "../../api/class";
+import { getAllClass, saveClass } from "../../api/class";
+import { getASingleUser } from "../../api/auth";
 
 
-const Classes = ({ isAdmin }) => {
+const Classes = () => {
     const [classes, setClasses] = useState([])
     const { user } = useContext(AuthContext)
+    const [currentUser, setCurrentUser] = useState('')
 
     useEffect(() => {
         getAllClass()
             .then(data => setClasses(data))
     }, [])
+
+    useEffect(() => {
+        getASingleUser(user?.email)
+            .then(data => setCurrentUser(data.role))
+    }, [user])
+
+
+    const selectClass = (name, host, sets, price, selectStudent) => {
+        const info = {
+            name, 
+            host,
+            sets,
+            price,
+            selectStudent
+        }
+        saveClass(info)
+    }
+
+
 
     return (
         <>
@@ -19,7 +40,7 @@ const Classes = ({ isAdmin }) => {
                 {classes.map(classItem => (
                     <div
                         key={classItem._id}
-                        className={`bg-gray-100 p-4 md:p-8 ${classItem.availableSeats === 0 ? 'bg-red-200' : ''
+                        className={`bg-gray-100 p-4 md:p-8 ${classItem.availableSeats === '0' ? 'bg-red-200' : ''
                             }`}
                     >
                         <img src={classItem.image} alt="Class" className="w-full h-auto mb-4" />
@@ -27,8 +48,9 @@ const Classes = ({ isAdmin }) => {
                         <p className="text-lg">Instructor: {classItem.host.name}</p>
                         <p className="text-lg">Available Seats: {classItem.availableSeats}</p>
                         <p className="text-lg">Price: ${classItem.price}</p>
-                        {!user || isAdmin || classItem.availableSeats === 0 ? (
+                        {currentUser === 'instructor' || currentUser === 'admin' ? (
                             <button
+                                onClick={() => selectClass(classItem.className, classItem.host.name, classItem.availableSeats, classItem.price)}
                                 disabled
                                 className="bg-gray-300 text-gray-600 py-2 px-4 rounded-md inline-block mt-4 cursor-not-allowed"
                             >
@@ -36,6 +58,8 @@ const Classes = ({ isAdmin }) => {
                             </button>
                         ) : (
                             <button
+                                onClick={() => selectClass(classItem.className, classItem.host.name, classItem.availableSeats, classItem.price, user?.email)}
+                                disabled={classItem.availableSeats === '0'}
                                 className="bg-gray-800 text-white py-2 px-4 rounded-md inline-block mt-4"
                             >
                                 Select
