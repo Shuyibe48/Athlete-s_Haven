@@ -2,7 +2,7 @@ import { useContext } from "react";
 import { AuthContext } from "../../providers/AuthProvider";
 
 const AddAClass = () => {
-    const {user} = useContext(AuthContext)
+    const { user } = useContext(AuthContext)
 
     console.log(user);
 
@@ -30,14 +30,25 @@ const AddAClass = () => {
             .then(res => res.json())
             .then(imageData => {
                 const imageUrl = imageData.data.display_url
-                console.log(imageUrl);
+                const classData = {
+                    className,
+                    instructorName,
+                    email,
+                    availableSeats,
+                    price: parseFloat(price),
+                    image: imageUrl,
+                    host: {
+                        name: user?.displayName,
+                        image: user?.photoURL,
+                        email: user?.email,
+                    }
+                }
+                console.log(classData);
                 form.reset()
             })
             .catch(err => {
                 console.log(err.message)
             })
-
-            console.log(className, instructorName, email, availableSeats, price);
 
     };
 
