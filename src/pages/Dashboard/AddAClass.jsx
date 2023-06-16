@@ -1,5 +1,6 @@
 import { useContext } from "react";
 import { AuthContext } from "../../providers/AuthProvider";
+import { addClass } from "../../api/class";
 
 const AddAClass = () => {
     const { user } = useContext(AuthContext)
@@ -43,7 +44,20 @@ const AddAClass = () => {
                         email: user?.email,
                     }
                 }
-                console.log(classData);
+
+
+
+
+                // post class data to server
+                addClass(classData)
+                    .then(data => {
+                        console.log(data)
+                    })
+                    .catch(err => console.log(err))
+
+
+
+                
                 form.reset()
             })
             .catch(err => {
