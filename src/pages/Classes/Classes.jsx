@@ -9,6 +9,8 @@ const Classes = () => {
     const { user } = useContext(AuthContext)
     const [currentUser, setCurrentUser] = useState('')
 
+    const approvedClasses = classes.filter(classItem => classItem.status === 'approved')
+
     useEffect(() => {
         getAllClass()
             .then(data => setClasses(data))
@@ -42,7 +44,7 @@ const Classes = () => {
         <>
             <h2 className="text-4xl font-bold text-center mb-8">Classes</h2>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 p-8">
-                {classes.map(classItem => (
+                {approvedClasses.map(classItem => (
                     <div
                         key={classItem._id}
                         className={`bg-gray-100 p-4 md:p-8 ${classItem.availableSeats === '0' ? 'bg-red-200' : ''

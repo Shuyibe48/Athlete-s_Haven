@@ -1,6 +1,6 @@
 import { useContext, useEffect, useState } from "react";
 import { AuthContext } from "../../providers/AuthProvider";
-import { deleteSelectClass, getAllSelectedClass } from "../../api/class";
+import { deleteSelectClass, getAllSelectedClass } from "../../api/class"
 
 const MySelectedClasses = () => {
     const [selectedClasses, setSelectedClasses] = useState([])
@@ -9,15 +9,15 @@ const MySelectedClasses = () => {
     useEffect(() => {
         getAllSelectedClass(user?.email)
             .then(data => setSelectedClasses(data))
-    }, [user])
+    }, [user, selectedClasses])
 
 
     const onDeleteClick = id => {
         deleteSelectClass(id)
-        .then(data => {
-            console.log(data)
-            window.alert('deleted')
-        })
+            .then(data => {
+                console.log(data)
+                window.alert('deleted')
+            })
     }
 
 
@@ -40,11 +40,13 @@ const MySelectedClasses = () => {
                         >
                             Delete
                         </button>
-                        <button
-                            className="bg-blue-900 text-white py-2 px-4 rounded-md inline-block mt-4"
-                        >
-                            Pay
-                        </button>
+                        {/* <Link to='/dashboard/payment'> */}
+                            <button
+                                className="bg-blue-900 text-white py-2 px-4 rounded-md inline-block mt-4"
+                            >
+                                Pay
+                            </button>
+                        {/* </Link> */}
                     </div>
                 </div>
             ))}

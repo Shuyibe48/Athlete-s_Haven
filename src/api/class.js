@@ -63,3 +63,36 @@ export const deleteSelectClass = async id => {
     const result = await response.json()
     return result
 }
+
+
+// approved class
+export const approvedClass = id => {
+    const currentUser = {
+        status: 'approved',
+    }
+
+    return fetch(`${import.meta.env.VITE_API_URL}/classes/${id}`, {
+        method: 'PUT',
+        headers: {
+            'content-type': 'application/json',
+        },
+        body: JSON.stringify(currentUser),
+    }).then(res => res.json()).then(data => console.log(data))
+}
+
+
+// approved class
+export const denyClass = id => {
+    const currentUser = {
+        status: 'deny',
+    }
+
+    return fetch(`${import.meta.env.VITE_API_URL}/classes/${id}`, {
+        method: 'PUT',
+        headers: {
+            'content-type': 'application/json',
+        },
+        body: JSON.stringify(currentUser),
+    }).then(res => res.json()).then(data => console.log(data))
+}
+

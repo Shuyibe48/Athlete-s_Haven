@@ -42,7 +42,9 @@ const AddAClass = () => {
                         name: user?.displayName,
                         image: user?.photoURL,
                         email: user?.email,
-                    }
+                    },
+                    status: 'pending',
+                    feedback: ''
                 }
 
 
