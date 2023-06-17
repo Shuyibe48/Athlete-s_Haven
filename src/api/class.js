@@ -96,3 +96,19 @@ export const denyClass = id => {
     }).then(res => res.json()).then(data => console.log(data))
 }
 
+
+// send feedback for class
+export const feedbackClass = (id, feedback) => {
+    const currentUser = {
+        feedback: feedback,
+    }
+
+    return fetch(`${import.meta.env.VITE_API_URL}/classes/${id}`, {
+        method: 'PUT',
+        headers: {
+            'content-type': 'application/json',
+        },
+        body: JSON.stringify(currentUser),
+    }).then(res => res.json()).then(data => console.log(data))
+}
+

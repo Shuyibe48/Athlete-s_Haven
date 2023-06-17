@@ -9,7 +9,7 @@ const MySelectedClasses = () => {
     useEffect(() => {
         getAllSelectedClass(user?.email)
             .then(data => setSelectedClasses(data))
-    }, [user, selectedClasses])
+    }, [user])
 
 
     const onDeleteClick = id => {

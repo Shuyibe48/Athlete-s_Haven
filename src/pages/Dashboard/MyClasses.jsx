@@ -10,7 +10,7 @@ const MyClasses = () => {
     useEffect(() => {
         getUserClasses(user?.email)
         .then(data => setClasses(data))
-    }, [user, classes])
+    }, [user])
 
     return (
         <div className="p-8">
@@ -26,7 +26,7 @@ const MyClasses = () => {
                             <h3 className="text-lg font-bold mb-2">{classItem.className}</h3>
                             <p className="mb-4">Status: {classItem.status}</p>
                             <p>Total Enrolled Students: </p>
-                            <p>Feedback: </p>
+                            <p>Feedback: {classItem.feedback}</p>
                         </div>
                         <div className="mt-4">
                             <button className="bg-blue-500 hover:bg-blue-600 text-white font-medium py-2 px-4 rounded-md transition-colors duration-300">
