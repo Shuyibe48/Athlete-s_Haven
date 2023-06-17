@@ -67,7 +67,7 @@ export const deleteSelectClass = async id => {
 
 // approved class
 export const approvedClass = id => {
-    const currentUser = {
+    const currentStatus = {
         status: 'approved',
     }
 
@@ -76,14 +76,14 @@ export const approvedClass = id => {
         headers: {
             'content-type': 'application/json',
         },
-        body: JSON.stringify(currentUser),
+        body: JSON.stringify(currentStatus),
     }).then(res => res.json()).then(data => console.log(data))
 }
 
 
 // approved class
 export const denyClass = id => {
-    const currentUser = {
+    const currentStatus = {
         status: 'deny',
     }
 
@@ -92,14 +92,14 @@ export const denyClass = id => {
         headers: {
             'content-type': 'application/json',
         },
-        body: JSON.stringify(currentUser),
+        body: JSON.stringify(currentStatus),
     }).then(res => res.json()).then(data => console.log(data))
 }
 
 
 // send feedback for class
 export const feedbackClass = (id, feedback) => {
-    const currentUser = {
+    const currentFeedback = {
         feedback: feedback,
     }
 
@@ -108,7 +108,19 @@ export const feedbackClass = (id, feedback) => {
         headers: {
             'content-type': 'application/json',
         },
-        body: JSON.stringify(currentUser),
+        body: JSON.stringify(currentFeedback),
     }).then(res => res.json()).then(data => console.log(data))
 }
 
+
+// update class 
+export const updateClass = (id, updateInfo) => {
+
+    return fetch(`${import.meta.env.VITE_API_URL}/classes/${id}`, {
+        method: 'PUT',
+        headers: {
+            'content-type': 'application/json',
+        },
+        body: JSON.stringify(updateInfo),
+    }).then(res => res.json()).then(data => console.log(data))
+}
