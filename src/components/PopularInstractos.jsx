@@ -1,44 +1,20 @@
+import { useEffect, useState } from 'react';
 import FastMarquee from 'react-fast-marquee';
+import { getUser } from '../api/auth';
 
 const PopularInstructors = () => {
-    const instructors = [
-        {
-            name: 'Instructor 1',
-            image: 'https://images.unsplash.com/photo-1554941426-a965fb2b9258?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=870&q=80',
-            text: 'Instructor 1 description',
-        },
-        {
-            name: 'Instructor 2',
-            image: 'https://images.unsplash.com/photo-1554941426-a965fb2b9258?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=870&q=80',
-            text: 'Instructor 2 description',
-        },
-        {
-            name: 'Instructor 2',
-            image: 'https://images.unsplash.com/photo-1554941426-a965fb2b9258?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=870&q=80',
-            text: 'Instructor 2 description',
-        },
-        {
-            name: 'Instructor 2',
-            image: 'https://images.unsplash.com/photo-1554941426-a965fb2b9258?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=870&q=80',
-            text: 'Instructor 2 description',
-        },
-        {
-            name: 'Instructor 2',
-            image: 'https://images.unsplash.com/photo-1554941426-a965fb2b9258?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=870&q=80',
-            text: 'Instructor 2 description',
-        },
-        {
-            name: 'Instructor 2',
-            image: 'https://images.unsplash.com/photo-1554941426-a965fb2b9258?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=870&q=80',
-            text: 'Instructor 2 description',
-        },
-        {
-            name: 'Instructor 2',
-            image: 'https://images.unsplash.com/photo-1554941426-a965fb2b9258?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=870&q=80',
-            text: 'Instructor 2 description',
-        },
-    ];
+    const [instructor, setInstructor] = useState([])
 
+    useEffect(() => {
+        getUser()
+            .then(data => setInstructor(data))
+    }, [])
+
+    const instructors = instructor.filter(inst => inst.role === 'instructor')
+
+    console.log(instructors);
+
+    
     const handleImageHover = (event) => {
         event.target.classList.toggle('hovered');
     };
@@ -49,9 +25,9 @@ const PopularInstructors = () => {
                 <h2 className="text-4xl font-bold text-center mb-8">Popular Instructors</h2>
                 <div className="flex items-center justify-center">
                     <FastMarquee className="w-full" gradient={false} speed={60} pauseOnHover>
-                        {instructors.map((instructor, index) => (
+                        {instructors.map((instructor) => (
                             <div
-                                key={index}
+                                key={instructor._id}
                                 className="relative flex items-center mr-8 hover:cursor-pointer"
                             >
                                 <div
@@ -60,7 +36,7 @@ const PopularInstructors = () => {
                                     onMouseLeave={handleImageHover}
                                 >
                                     <img
-                                        src={instructor.image}
+                                        src={instructor.picture}
                                         alt={instructor.name}
                                         className="w-full h-full object-cover"
                                     />
@@ -78,7 +54,6 @@ const PopularInstructors = () => {
                                                     d="M10 0L12.307 6.981h5.02l-4.057 3.134 1.61 6.017L10 14.819l-4.881 2.313 1.61-6.017L2.673 6.98h5.02L10 0z"
                                                 />
                                             </svg>
-                                            <p className="text-sm">{instructor.rating}</p>
                                         </div>
                                     </div>
                                 </div>

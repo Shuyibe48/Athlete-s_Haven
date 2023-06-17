@@ -7,12 +7,10 @@ const BannerSection = () => {
             <div className="md:w-1/2 text-center md:text-left">
                 <h1 className="text-3xl md:text-4xl font-bold mb-4">Title</h1>
                 <p className="text-lg leading-relaxed mb-8">
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec condimentum metus nec elit sagittis, ut
-                    venenatis velit bibendum. Duis sed neque non elit sodales commodo vel ut velit. Proin et rutrum sapien, nec
-                    consectetur velit. Donec dictum mauris quis urna condimentum aliquet.
+                Athelet's Haven work for summer school. It play for kid and activities can access kids.
                 </p>
                 <p className="animate-pulse bg-gray-800 text-white py-2 px-4 rounded-md inline-block">
-                    Animated Text
+                    Athelet's Haven work for summer school.
                 </p>
             </div>
         </div>
