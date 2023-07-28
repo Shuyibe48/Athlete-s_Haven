@@ -11,9 +11,6 @@ const PopularInstructors = () => {
     }, [])
 
     const instructors = instructor.filter(inst => inst.role === 'instructor')
-
-    console.log(instructors);
-
     
     const handleImageHover = (event) => {
         event.target.classList.toggle('hovered');
