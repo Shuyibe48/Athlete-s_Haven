@@ -15,7 +15,7 @@ const Footer = () => {
                     </div>
                     <div className="space-y-4">
                         <h3 className="text-white text-sm font-bold">Contact</h3>
-                        <p className="text-gray-300 text-sm">Email: info@athleteshaven.com</p>
+                        <p className="text-gray-300 text-sm">Email: athlete's@haven.com</p>
                         <p className="text-gray-300 text-sm">Phone: +1 123-456-7890</p>
                         <div className="flex space-x-4">
                             <a href="https://www.facebook.com" target="_blank" rel="noopener noreferrer">
@@ -33,7 +33,7 @@ const Footer = () => {
                         <h3 className="text-white text-sm font-bold">Address</h3>
                         <p className="text-gray-300 text-sm">1234 Street Name</p>
                         <p className="text-gray-300 text-sm">City, State, ZIP Code</p>
-                        <p className="text-gray-300 text-sm">Country</p>
+                        <p className="text-gray-300 text-sm">USA</p>
                     </div>
                 </div>
                 <hr className="border-gray-700 my-8" />
