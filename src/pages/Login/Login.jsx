@@ -2,12 +2,14 @@ import { Link, useLocation, useNavigate } from 'react-router-dom'
 import toast from 'react-hot-toast'
 import { FcGoogle } from 'react-icons/fc'
 import { useContext, useRef, useState } from 'react'
+import { FaEyeSlash, FaRegEye } from 'react-icons/fa';
 // import { saveUser } from '../../api/auth'
 import { AuthContext } from '../../providers/AuthProvider'
 import { saveUser } from '../../api/auth'
 
 const Login = () => {
     const [show, setShow] = useState(false)
+    const [error, setError] = useState('')
     const { setLoading, signIn, signInWithGoogle, resetPassword } =
         useContext(AuthContext)
     const navigate = useNavigate()
@@ -28,8 +30,9 @@ const Login = () => {
             })
             .catch(err => {
                 setLoading(false)
+                setError(err.message)
                 console.log(err.message)
-                toast.error(err.message)
+                toast.error('error')
             })
     }
 
@@ -111,8 +114,11 @@ const Login = () => {
                                     placeholder='*******'
                                     className='w-full px-3 py-2 border rounded-md border-gray-300 focus:outline-rose-500 bg-gray-200 text-gray-900'
                                 />
-                                <button className='text-xs font-semibold bg-slate-100 p-2 cursor-pointer absolute inset-y-0 right-0' onClick={() => setShow(!show)}>{show ? 'HIDE' : 'SHOW'}</button>
+                                <button className='text-xs font-semibold bg-slate-100 p-2 cursor-pointer absolute inset-y-0 right-0' onClick={() => setShow(!show)}>{show ? <FaEyeSlash /> : <FaRegEye />}</button>
                             </div>
+                        </div>
+                        <div>
+                            <p className='text-xs text-red-500'>{error}</p>
                         </div>
                     </div>
 

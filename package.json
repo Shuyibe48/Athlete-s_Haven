@@ -10,6 +10,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@react-icons/all-files": "^4.1.0",
     "@stripe/react-stripe-js": "^2.1.0",
     "@stripe/stripe-js": "^1.54.0",
     "@tanstack/react-query": "^4.32.0",
@@ -21,7 +22,7 @@
     "react-dom": "^18.2.0",
     "react-fast-marquee": "^1.6.0",
     "react-hot-toast": "^2.4.1",
-    "react-icons": "^4.9.0",
+    "react-icons": "^4.10.1",
     "react-router-dom": "^6.12.1",
     "sort-by": "^1.2.0",
     "sweetalert2": "^11.7.20"

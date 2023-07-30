@@ -1,12 +1,15 @@
 import { Link, useLocation, useNavigate } from 'react-router-dom'
 import toast from 'react-hot-toast'
 import { FcGoogle } from 'react-icons/fc'
+import { FaEyeSlash, FaRegEye } from 'react-icons/fa';
 import { useContext, useState } from 'react'
 import { AuthContext } from '../../providers/AuthProvider'
 import { saveUser } from '../../api/auth'
 
 const SignUp = () => {
     const [show, setShow] = useState(false)
+    const [conPassShow, setConPassShow] = useState(false)
+    const [error, setError] = useState('')
     const {
         setLoading,
         signInWithGoogle,
@@ -23,6 +26,19 @@ const SignUp = () => {
         const name = event.target.name.value
         const email = event.target.email.value
         const password = event.target.password.value
+        const confirmPassword = event.target.confirmPassword.value
+
+        const passwordRegex = /^(?=.*[A-Z])(?=.*[@#$%^&+=])(?=.{6,})\S+$/;
+
+        if (password !== confirmPassword) {
+            setError('Password not matched')
+            return 
+        }
+
+        if(!passwordRegex.test(password)){
+            setError('Password should have over 6 characters, should have a capital letter should have a special character')
+            return
+        }
 
         // Image Upload
         const image = event.target.image.files[0]
@@ -66,16 +82,16 @@ const SignUp = () => {
                 toast.error(err.message)
             })
 
-        return
+        
     }
 
-    // Handle google signin
+    // Handle google signIn
     const handleGoogleSignIn = () => {
         signInWithGoogle()
             .then(result => {
                 console.log(result.user)
                 // save user to db
-                // saveUser(result.user)
+                saveUser(result.user)
                 navigate(from, { replace: true })
             })
             .catch(err => {
@@ -152,9 +168,31 @@ const SignUp = () => {
                                     placeholder='*******'
                                     className='w-full px-3 py-2 border rounded-md border-gray-300 focus:outline-rose-500 bg-gray-200 text-gray-900'
                                 />
-                                <button className='text-xs font-semibold bg-slate-100 p-2 cursor-pointer absolute inset-y-0 right-0' onClick={() => setShow(!show)}>{show ? 'HIDE' : 'SHOW'}</button>
+
+                                <button className='text-xs font-semibold bg-slate-100 p-2 cursor-pointer absolute inset-y-0 right-0' onClick={() => setShow(!show)}>{show ? <FaEyeSlash /> : <FaRegEye />}</button>
                             </div>
                         </div>
+                        <div className='relative'>
+                            <div className='flex justify-between'>
+                                <label htmlFor='confirmPassword' className='text-sm mb-2'>
+                                    Confirm Password
+                                </label>
+                            </div>
+                            <input
+                                type={`${conPassShow ? 'text' : 'password'}`}
+                                name='confirmPassword'
+                                id='confirmPassword'
+                                required
+                                placeholder='*******'
+                                className='w-full px-3 py-2 border rounded-md border-gray-300 focus:outline-rose-500 bg-gray-200 text-gray-900'
+                            />
+                            <button className='text-xs font-semibold bg-slate-100 p-2 cursor-pointer absolute inset-y-0 right-0 top-6' onClick={() => setConPassShow(!conPassShow)}>{conPassShow ? <FaEyeSlash /> : <FaRegEye />}</button>
+                        </div>
+
+                    </div>
+
+                    <div>
+                        <p className='text-xs text-red-500'>{error}</p>
                     </div>
 
                     <div>

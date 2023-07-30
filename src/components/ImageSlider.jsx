@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 
 const ImageSlider = ({ images }) => {
     const [currentIndex, setCurrentIndex] = useState(0);
@@ -28,11 +28,8 @@ const ImageSlider = ({ images }) => {
                     }}
                 >
                     <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
-                        <h2 className="text-4xl text-white font-bold mb-4">Slide Title</h2>
-                        <p className="text-white text-lg mb-8">Slide description</p>
-                        <button className="bg-gray-800 text-white py-2 px-4 rounded">
-                            Slide Button
-                        </button>
+                        <h2 className="text-4xl text-white font-bold mb-4 text-center">Elevate Your Game at Athlete's Haven!</h2>
+                        <p className="text-white text-lg mb-8 text-center">Unleash Your Inner Champion - Experience Athlete's Haven World-Class Training.Train Like a Pro, Excel Like a Champion - Welcome to Athlete Haven.</p>
                     </div>
                 </div>
             ))}

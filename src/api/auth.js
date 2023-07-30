@@ -4,10 +4,11 @@ export const saveUser = user => {
         email: user.email,
         name: user.displayName,
         picture: user.photoURL,
+        role: 1
     }
 
-    fetch(`${import.meta.env.VITE_API_URL}/users/${user?.email}`, {
-        method: 'PUT',
+    fetch(`${import.meta.env.VITE_API_URL}/users`, {
+        method: 'POST',
         headers: {
             'content-type': 'application/json',
         },

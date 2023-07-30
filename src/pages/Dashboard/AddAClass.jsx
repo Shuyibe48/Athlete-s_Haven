@@ -69,7 +69,7 @@ const AddAClass = () => {
     };
 
     return (
-        <div className="flex justify-center items-center h-screen">
+        <div className="flex justify-center items-center">
             <form
                 className="bg-white shadow-lg rounded-lg p-8 w-full sm:w-3/4 md:w-1/2 lg:w-1/3"
                 onSubmit={handleSubmit}
