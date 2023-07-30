@@ -1,105 +1,110 @@
-import { useEffect, useState } from "react";
-import { approvedClass, denyClass, feedbackClass, getAllClass } from "../../api/class";
+import Swal from "sweetalert2";
+import useAxiosSecure from "../../api/useAxiosSecure";
+import { useQuery } from "@tanstack/react-query";
 
 const ManageClasses = () => {
-    const [classes, setClasses] = useState([])
-    const [feedbackId, setFeedBackId] = useState('')
-    const [feedBack, setFeedBack] = useState('')
+    const axiosSecure = useAxiosSecure()
+
+    const { data: classes = [], isLoading, refetch, error } = useQuery({
+        queryKey: ['class'],
+        queryFn: async () => {
+            const data = await axiosSecure.get(`/class`)
+            // console.log({ fromTQ: data })
+            return data?.data
+        },
+    })
+    if (isLoading) return 'Loading...'
+    if (error) return 'An error has occurred' + error.message
+    console.log(classes);
 
 
+    const actions = (id, status) => {
+        const info = {
+            id,
+            status
+        }
 
-    useEffect(() => {
-        getAllClass()
-            .then(data => setClasses(data))
-    }, [])
-
-    const approvedClick = id => {
-        approvedClass(id)
+        axiosSecure.patch(`/class/${id}`, info)
+            .then(data => {
+                console.log(data)
+                Swal.fire({
+                    position: 'top-end',
+                    icon: 'success',
+                    title: 'Done!',
+                    showConfirmButton: false,
+                    timer: 1500
+                })
+                refetch()
+            })
     }
-
-    const denyClick = id => {
-        denyClass(id)
-    }
-
-
-    const getFeedbackId = id => {
-        setFeedBackId(id)
-    }
-
-    const getFeedback = (event) => {
-
-        const feedback = event.target.feedback.value
-
-        setFeedBack(feedback)
-
-        feedbackClass(feedbackId, feedBack)
-
-        event.target.reset()
-    }
-
 
     return (
-        <div className="p-8">
-            <h2 className="text-2xl font-bold mb-8">Manage Classes</h2>
-
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                {classes.map((classItem) => (
-                    <div
-                        key={classItem._id}
-                        className="bg-white shadow-lg rounded-lg p-8 flex flex-col justify-between"
-                    >
-                        <div>
-                            <img
-                                src={classItem.image}
-                                alt={classItem.className}
-                                className="w-full h-auto rounded-md mb-4"
-                            />
-                            <h3 className="text-lg font-bold mb-2">{classItem.className}</h3>
-                            <p>Instructor: {classItem.instructorName}</p>
-                            <p>Email: {classItem.email}</p>
-                            <p>Available Seats: {classItem.availableSeats}</p>
-                            <p>Price: ${classItem.price}</p>
-                            <p>Status: {classItem.status}</p>
-                        </div>
-                        <div className="mt-4">
-                            <button
-                                onClick={() => approvedClick(classItem._id)}
-                                className="bg-green-500 hover:bg-green-600 text-white font-medium py-2 px-4 rounded-md transition-colors duration-300 mr-2"
-                                disabled={classItem.status === 'approved'}
-                            >
-                                Approve
-                            </button>
-                            <button
-                                onClick={() => denyClick(classItem._id)}
-                                className="bg-red-500 hover:bg-red-600 text-white font-medium py-2 px-4 rounded-md transition-colors duration-300 mr-2"
-                                disabled={classItem.status === 'approved'}
-                            >
-                                Deny
-                            </button>
-                            <button onClick={() => {
-                                window.my_modal_3.showModal()
-                                getFeedbackId(classItem._id)
-                            }} className="bg-blue-500 btn hover:bg-blue-600 text-white font-medium py-2 px-4 rounded-md transition-colors duration-300">
-                                Send Feedback
-                            </button>
-                        </div>
-                    </div>
-                ))}
+        <div className="container mx-auto p-4">
+            <h2 className="text-2xl font-bold mb-4">Manage Classes</h2>
+            <div className="overflow-x-auto">
+                <table className="table-auto border-collapse w-full">
+                    <thead>
+                        <tr>
+                            <th className="px-4 py-2">SL No</th>
+                            <th className="px-4 py-2">Class Image</th>
+                            <th className="px-4 py-2">Class Name</th>
+                            <th className="px-4 py-2">Instructor Name</th>
+                            <th className="px-4 py-2">Instructor Email</th>
+                            <th className="px-4 py-2">Available Seats</th>
+                            <th className="px-4 py-2">Price</th>
+                            <th className="px-4 py-2">Status</th>
+                            <th className="px-4 py-2">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {classes.map((classItem, index) => (
+                            <tr key={classItem._id}>
+                                <td className="border px-4 py-2">{index + 1}</td>
+                                <td className="border px-4 py-2">
+                                    <img
+                                        src={classItem.image}
+                                        alt={classItem.className}
+                                        className="h-16 w-16 object-cover rounded"
+                                    />
+                                </td>
+                                <td className="border px-4 py-2">{classItem.className}</td>
+                                <td className="border px-4 py-2">{classItem.instructorName}</td>
+                                <td className="border px-4 py-2">{classItem.instructorEmail}</td>
+                                <td className="border px-4 py-2">{classItem.availableSeats}</td>
+                                <td className="border px-4 py-2">{classItem.price}</td>
+                                <td className="border px-4 py-2">
+                                    <span
+                                        className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full ${classItem.status === 2
+                                            ? "bg-green-100 text-green-800"
+                                            : classItem.status === 3
+                                                ? "bg-red-100 text-red-800"
+                                                : "bg-yellow-100 text-yellow-800"
+                                            }`}
+                                    >
+                                        {classItem.status === 1 &&
+                                            'Pending'
+                                        }
+                                        {classItem.status === 2 &&
+                                            'Approved'
+                                        }
+                                        {classItem.status === 3 &&
+                                            'Deny'
+                                        }
+                                    </span>
+                                </td>
+                                <td className="border px-4 py-2 space-x-2">
+                                    <button disabled={classItem.status === 2} onClick={() => actions(classItem._id, 2)} className="bg-green-500 text-sm hover:bg-green-700 text-white font-semibold py-2 my-2 lg:my-0 px-2 rounded">
+                                        Approved
+                                    </button>
+                                    <button disabled={classItem.status === 3} onClick={() => actions(classItem._id, 3)} className="bg-red-500 text-sm hover:bg-red-700 text-white font-semibold py-2 my-2 lg:my-0 px-2 rounded">
+                                        Deny
+                                    </button>
+                                </td>
+                            </tr>
+                        ))}
+                    </tbody>
+                </table>
             </div>
-
-            {/* You can open the modal using ID.showModal() method */}
-            {/* <button className="btn" onClick={() => window.my_modal_3.showModal()}>open modal</button> */}
-            <dialog id="my_modal_3" className="modal">
-                <form method="dialog" className="modal-box" onSubmit={getFeedback}>
-                    <button className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">✕</button>
-                    <h3 className="font-bold text-lg">Send Feedback!</h3>
-
-                    <label className="font-semibold" htmlFor="feedback">Feedback</label>
-                    <br />
-                    <input className="py-2 px-4 rounded w-full" name="feedback" type="text" id="feedback" placeholder="send feedback" />
-                    <button type="submit" className="font-semibold mt-2 bg-slate-800 text-gray-100 rounded py-2 px-4">Send</button>
-                </form>
-            </dialog>
         </div>
     );
 };

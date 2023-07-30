@@ -5,7 +5,7 @@ const PopularClasses = () => {
     const axiosSecure = useAxiosSecure()
 
     const { data: classes = [], isLoading, refetch, error } = useQuery({
-        queryKey: ['products'],
+        queryKey: ['classes'],
         queryFn: async () => {
             const data = await axiosSecure.get(`/classes`)
             // console.log({ fromTQ: data })

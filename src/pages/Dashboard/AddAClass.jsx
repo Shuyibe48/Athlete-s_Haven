@@ -1,11 +1,11 @@
 import { useContext } from "react";
-import { AuthContext } from "../../providers/AuthProvider";
-import { addClass } from "../../api/class";
+import { AuthContext } from "../../providers/AuthProvider"; 4
+import useAxiosSecure from "../../api/useAxiosSecure";
+import Swal from "sweetalert2";
 
 const AddAClass = () => {
     const { user } = useContext(AuthContext)
-
-    console.log(user);
+    const axiosSecure = useAxiosSecure()
 
     const handleSubmit = (event) => {
         event.preventDefault();
@@ -13,7 +13,7 @@ const AddAClass = () => {
         const form = event.target
         const className = event.target.className.value
         const instructorName = user?.displayName
-        const email = user?.email
+        const instructorEmail = user?.email
         const availableSeats = event.target.availableSeats.value
         const price = event.target.price.value
 
@@ -33,33 +33,30 @@ const AddAClass = () => {
                 const imageUrl = imageData.data.display_url
                 const classData = {
                     className,
-                    instructorName,
-                    email,
-                    availableSeats,
-                    price: parseFloat(price),
                     image: imageUrl,
-                    host: {
-                        name: user?.displayName,
-                        image: user?.photoURL,
-                        email: user?.email,
-                    },
-                    status: 'pending',
+                    instructorName,
+                    instructorEmail,
+                    availableSeats: parseInt(availableSeats),
+                    price: parseFloat(price),
+                    status: 1,
+                    totalEnrolled: 0,
                     feedback: ''
                 }
 
-
-
-
-                // post class data to server
-                addClass(classData)
+                axiosSecure.post(`/class`, classData)
                     .then(data => {
-                        console.log(data)
+                        const success = data?.data?.insertedId
+                    if (success) {
+                            Swal.fire({
+                                position: 'top-end',
+                                icon: 'success',
+                                title: success + ' has been saved',
+                                showConfirmButton: false,
+                                timer: 1500
+                            })
+                        }
                     })
-                    .catch(err => console.log(err))
 
-
-
-                
                 form.reset()
             })
             .catch(err => {
@@ -67,6 +64,24 @@ const AddAClass = () => {
             })
 
     };
+
+
+
+    // const addClass = classData => {
+    //     const { data: classes = [], isLoading, refetch, error } = useQuery ( {
+    //         queryKey: ['class'],
+    //         queryFn: async  () => {
+    //             const data = await axiosSecure.post(`/class`, classData)
+    //             console.log({ fromTQ: data })
+    //             return data?.data
+    //         },
+    //     })
+    //     if (isLoading) return 'Loading...'
+    //     if (error) return 'An error has occurred' + error.message
+    //     console.log(classes);
+    // }
+
+
 
     return (
         <div className="flex justify-center items-center">

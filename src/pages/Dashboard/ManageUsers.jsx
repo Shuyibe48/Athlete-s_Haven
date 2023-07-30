@@ -1,34 +1,50 @@
 import { useEffect, useState } from 'react';
 import { getUser, makeAdmin, makeInstructor } from '../../api/auth';
+import useAxiosSecure from '../../api/useAxiosSecure';
+import { useQuery } from '@tanstack/react-query';
 
 const ManageUsers = () => {
-    const [users, setUsers] = useState([])
-    const [disableIns, setDisableIns] = useState(false)
-    const [disableAdm, setDisableAdm] = useState(false)
+    const axiosSecure = useAxiosSecure()
 
-    useEffect(() => {
-        getUser()
-            .then(data => setUsers(data))
-    }, [users])
+    const { data: users = [], isLoading, refetch, error } = useQuery({
+        queryKey: ['class'],
+        queryFn: async () => {
+            const data = await axiosSecure.get(`/users`)
+            // console.log({ fromTQ: data })
+            return data?.data
+        },
+    })
+    if (isLoading) return 'Loading...'
+    if (error) return 'An error has occurred' + error.message
+    console.log(users);
 
-    const instructorButton = (email, isIns) => {
-        setDisableIns(!disableIns)
-        setDisableAdm(false)
-        makeInstructor(email, isIns)
-    };
 
-    const adminButton = (email, isAdm) => {
-        setDisableAdm(!disableAdm)
-        setDisableIns(false)
-        makeAdmin(email, isAdm)
-    };
+    const actions = (id, status) => {
+        const info = {
+            id,
+            status
+        }
+
+        axiosSecure.patch(`/class/${id}`, info)
+            .then(data => {
+                console.log(data)
+                Swal.fire({
+                    position: 'top-end',
+                    icon: 'success',
+                    title: 'Done!',
+                    showConfirmButton: false,
+                    timer: 1500
+                })
+                refetch()
+            })
+    }
 
     return (
         <div className="p-8">
             <h2 className="text-2xl font-bold mb-8">Manage Users</h2>
 
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                {users.map((user) => (
+                {users?.map((user) => (
                     <div
                         key={user._id}
                         className="bg-white shadow-lg rounded-lg p-8 flex flex-col justify-between"
