@@ -5,7 +5,7 @@ const BannerSection = () => {
                 <img src='https://images.unsplash.com/photo-1551958219-acbc608c6377?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=870&q=80' alt="Banner" className="max-w-full h-auto animate-pulse" />
             </div>
             <div className="md:w-1/2 text-center md:text-left">
-                <h1 className="text-3xl md:text-4xl font-bold mb-4">Title</h1>
+                <h1 className="text-3xl md:text-4xl font-bold mb-4">Athelet's Haven</h1>
                 <p className="text-lg leading-relaxed mb-8">
                 Athelet's Haven work for summer school. It play for kid and activities can access kids.
                 </p>

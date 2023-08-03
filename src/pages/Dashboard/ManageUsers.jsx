@@ -1,5 +1,4 @@
-import { useEffect, useState } from 'react';
-import { getUser, makeAdmin, makeInstructor } from '../../api/auth';
+import Swal from 'sweetalert2';
 import useAxiosSecure from '../../api/useAxiosSecure';
 import { useQuery } from '@tanstack/react-query';
 
@@ -7,7 +6,7 @@ const ManageUsers = () => {
     const axiosSecure = useAxiosSecure()
 
     const { data: users = [], isLoading, refetch, error } = useQuery({
-        queryKey: ['class'],
+        queryKey: ['users'],
         queryFn: async () => {
             const data = await axiosSecure.get(`/users`)
             // console.log({ fromTQ: data })
@@ -19,13 +18,13 @@ const ManageUsers = () => {
     console.log(users);
 
 
-    const actions = (id, status) => {
+    const actions = (id, role) => {
         const info = {
             id,
-            status
+            role
         }
 
-        axiosSecure.patch(`/class/${id}`, info)
+        axiosSecure.patch(`/users/${id}`, info)
             .then(data => {
                 console.log(data)
                 Swal.fire({
@@ -40,45 +39,65 @@ const ManageUsers = () => {
     }
 
     return (
-        <div className="p-8">
-            <h2 className="text-2xl font-bold mb-8">Manage Users</h2>
-
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                {users?.map((user) => (
-                    <div
-                        key={user._id}
-                        className="bg-white shadow-lg rounded-lg p-8 flex flex-col justify-between"
-                    >
-                        <div>
-                            <img
-                                src={user.picture}
-                                alt={user.name}
-                                className="w-full h-auto rounded-md mb-4"
-                            />
-                            <h3 className="text-lg font-bold mb-2">{user.name}</h3>
-                            <p>Email: {user.email}</p>
-                            <p>Role: {user.role || 'student'}</p>
-                        </div>
-                        <div className="mt-4">
-                            <>
-                                <button
-                                    disabled={disableIns === true || user.isIns}
-                                    className="bg-blue-500 hover:bg-blue-600 text-white font-medium py-2 px-4 rounded-md transition-colors duration-300 mr-2"
-                                    onClick={() => instructorButton(user.email, disableIns)}
-                                >
-                                    Make Instructor
-                                </button>
-                                <button
-                                    disabled={disableAdm === true || user.isAdm}
-                                    className="bg-purple-500 hover:bg-purple-600 text-white font-medium py-2 px-4 rounded-md transition-colors duration-300"
-                                    onClick={() => adminButton(user.email, disableAdm)}
-                                >
-                                    Make Admin
-                                </button>
-                            </>
-                        </div>
-                    </div>
-                ))}
+        <div className="container mx-auto p-4">
+            <h2 className="text-2xl font-bold mb-4">Manage Classes</h2>
+            <div className="overflow-x-auto">
+                <table className="table-auto border-collapse w-full">
+                    <thead>
+                        <tr>
+                            <th className="px-4 py-2">SL No</th>
+                            <th className="px-4 py-2">User Image</th>
+                            <th className="px-4 py-2">User Name</th>
+                            <th className="px-4 py-2">User Email</th>
+                            <th className="px-4 py-2">Role</th>
+                            <th className="px-4 py-2">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {users?.map((user, index) => (
+                            <tr key={user._id}>
+                                <td className="border px-4 py-2">{index + 1}</td>
+                                <td className="border px-4 py-2">
+                                    <img
+                                        src={user.picture}
+                                        alt={user.name}
+                                        className="h-16 w-16 object-cover rounded"
+                                    />
+                                </td>
+                                <td className="border px-4 py-2">{user.name}</td>
+                                <td className="border px-4 py-2">{user.email}</td>
+                                <td className="border px-4 py-2">
+                                    <span
+                                        className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full ${user.status === 2
+                                            ? "bg-green-100 text-green-800"
+                                            : user.status === 3
+                                                ? "bg-red-100 text-red-800"
+                                                : "bg-yellow-100 text-yellow-800"
+                                            }`}
+                                    >
+                                        {user.role === 1 &&
+                                            'Student'
+                                        }
+                                        {user.role === 2 &&
+                                            'Instructor'
+                                        }
+                                        {user.role === 3 &&
+                                            'Admin'
+                                        }
+                                    </span>
+                                </td>
+                                <td className="border px-4 py-2 space-x-2">
+                                    <button disabled={user.role === 2} onClick={() => actions(user._id, 2)} className="bg-green-500 text-sm hover:bg-green-700 text-white font-semibold py-2 my-2 lg:my-0 px-2 rounded">
+                                        Make Instructor
+                                    </button>
+                                    <button disabled={user.role === 3} onClick={() => actions(user._id, 3)} className="bg-gray-500 text-sm hover:bg-gray-700 text-white font-semibold py-2 my-2 lg:my-0 px-2 rounded">
+                                        Make Admin
+                                    </button>
+                                </td>
+                            </tr>
+                        ))}
+                    </tbody>
+                </table>
             </div>
         </div>
     );

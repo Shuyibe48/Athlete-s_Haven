@@ -6,10 +6,12 @@ import Slider from "../../../components/Slider";
 const Home = () => {
     return (
         <>
-            <Slider />
-            <PopularClasses />
-            <BannerSection />
-            <PopularInstructors />
+            <div className="bg-slate-500">
+                <Slider />
+                <PopularClasses />
+                <BannerSection />
+                <PopularInstructors />
+            </div>
         </>
     );
 };

@@ -80,7 +80,7 @@ const Sidebar = () => {
                     </div>
 
                     <div className='flex flex-col justify-between flex-1 mt-6'>
-                        <h5 className='text-center font-bold text-cyan-100'>{dbUser?.role}</h5>
+                        <h5 className='text-center font-bold text-cyan-100'>{dbUser?.role === 1 && 'Student' || dbUser?.role === 2 && 'Instructor' ||  dbUser?.role === 3 && 'Admin'}</h5>
                         <nav>
                             {dbUser?.role && dbUser?.role === 3 && (
                                 <>

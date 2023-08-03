@@ -71,7 +71,7 @@ const ManageClasses = () => {
                                 <td className="border px-4 py-2">{classItem.instructorName}</td>
                                 <td className="border px-4 py-2">{classItem.instructorEmail}</td>
                                 <td className="border px-4 py-2">{classItem.availableSeats}</td>
-                                <td className="border px-4 py-2">{classItem.price}</td>
+                                <td className="border px-4 py-2">${classItem.price}</td>
                                 <td className="border px-4 py-2">
                                     <span
                                         className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full ${classItem.status === 2
