@@ -80,7 +80,7 @@ const Sidebar = () => {
                     </div>
 
                     <div className='flex flex-col justify-between flex-1 mt-6'>
-                        <h5 className='text-center font-bold text-cyan-100'>{dbUser?.role === 1 && 'Student' || dbUser?.role === 2 && 'Instructor' ||  dbUser?.role === 3 && 'Admin'}</h5>
+                        <h5 className='text-center font-bold text-cyan-100'>{dbUser?.role === 1 && 'Student' || dbUser?.role === 2 && 'Instructor' || dbUser?.role === 3 && 'Admin'}</h5>
                         <nav>
                             {dbUser?.role && dbUser?.role === 3 && (
                                 <>
@@ -106,7 +106,7 @@ const Sidebar = () => {
                     <NavLink
                         to='/'
                         className={({ isActive }) =>
-                            `flex items-center px-4 py-2 mt-5  transition-colors duration-300 transform  hover:bg-gray-300   hover:text-gray-700 ${isActive ? 'bg-gray-300  text-gray-700' : 'text-gray-600'
+                            `flex items-center px-4 py-2 mt-5  transition-colors duration-300 transform  hover:bg-gray-300 hover:text-gray-700 ${isActive ? 'bg-gray-300  text-gray-700' : 'text-gray-600'
                             }`
                         }
                     >

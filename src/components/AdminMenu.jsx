@@ -1,8 +1,5 @@
-import { useContext } from 'react'
 import { Link } from 'react-router-dom'
-import { AuthContext } from '../providers/AuthProvider'
 const AdminMenu = () => {
-    const { user } = useContext(AuthContext)
 
 
     return (

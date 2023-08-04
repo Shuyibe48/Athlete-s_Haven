@@ -1,6 +1,7 @@
 import Swal from "sweetalert2";
 import useAxiosSecure from "../../api/useAxiosSecure";
 import { useQuery } from "@tanstack/react-query";
+import { Link } from "react-router-dom";
 
 const ManageClasses = () => {
     const axiosSecure = useAxiosSecure()
@@ -99,6 +100,9 @@ const ManageClasses = () => {
                                     <button disabled={classItem.status === 3} onClick={() => actions(classItem._id, 3)} className="bg-red-500 text-sm hover:bg-red-700 text-white font-semibold py-2 my-2 lg:my-0 px-2 rounded">
                                         Deny
                                     </button>
+                                    <Link to={`dashboard/sendFeedback`} className="bg-blue-500 text-sm hover:bg-blue-700 text-white font-semibold py-2 my-2 lg:my-0 px-2 rounded">
+                                        Send Feedback
+                                    </Link>
                                 </td>
                             </tr>
                         ))}
