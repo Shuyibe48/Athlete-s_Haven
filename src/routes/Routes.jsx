@@ -18,8 +18,6 @@ import ManageClasses from "../pages/Dashboard/ManageClasses";
 import ManageUsers from "../pages/Dashboard/ManageUsers";
 import Payment from "../pages/Dashboard/Payment";
 import ErrorComponent from "../pages/ErrorComponent/ErrorComponent";
-import SendFeedback from "../pages/Dashboard/SendFeedback";
-
 export const router = createBrowserRouter([
     {
         path: '/',
@@ -83,11 +81,7 @@ export const router = createBrowserRouter([
             {
                 path: 'dashboard/manageUsers',
                 element: <ManageUsers />
-            },
-            {
-                path: 'dashboard/manageClasses/dashboard/sendFeedback',
-                element: <SendFeedback />
-            },
+            }
         ]
     }
 ])
