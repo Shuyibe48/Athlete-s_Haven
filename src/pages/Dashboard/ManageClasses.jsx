@@ -1,9 +1,21 @@
 import Swal from "sweetalert2";
+import { useState } from 'react';
 import useAxiosSecure from "../../api/useAxiosSecure";
 import { useQuery } from "@tanstack/react-query";
+import Modal from "../../components/Modal/Modal";
 
 const ManageClasses = () => {
     const axiosSecure = useAxiosSecure()
+
+    const [showModal, setShowModal] = useState(false);
+
+    const openModal = () => {
+        setShowModal(true);
+    };
+
+    const closeModal = () => {
+        setShowModal(false);
+    };
 
     const { data: classes = [], isLoading, refetch, error } = useQuery({
         queryKey: ['class'],
@@ -99,15 +111,21 @@ const ManageClasses = () => {
                                     <button disabled={classItem.status === 3} onClick={() => actions(classItem._id, 3)} className="bg-red-500 text-sm hover:bg-red-700 text-white font-semibold py-2 my-2 lg:my-0 px-2 rounded">
                                         Deny
                                     </button>
-                                    <button className="bg-blue-500 text-sm hover:bg-blue-700 text-white font-semibold py-2 my-2 lg:my-0 px-2 rounded">
+
+                                    <button
+                                        onClick={openModal}
+                                        className="bg-blue-500 text-sm hover:bg-blue-700 text-white font-semibold py-2 my-2 lg:my-0 px-2 rounded">
                                         Send Feedback
                                     </button>
+
                                 </td>
                             </tr>
                         ))}
                     </tbody>
                 </table>
             </div>
+
+            <Modal showModal={showModal} closeModal={closeModal} />
         </div>
     );
 };
