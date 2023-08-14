@@ -5,16 +5,16 @@ const PopularClasses = () => {
     const axiosSecure = useAxiosSecure()
 
     const { data: classes = [], isLoading, refetch, error } = useQuery({
-        queryKey: ['class'],
+        queryKey: ['popular-classes'],
         queryFn: async () => {
-            const data = await axiosSecure.get(`/class`)
-            // console.log({ fromTQ: data })
+            const data = await axiosSecure.get(`/popular-classes`)
+            console.log({ fromTQ: data })
             return data?.data
         },
     })
     if (isLoading) return 'Loading...'
     if (error) return 'An error has occurred' + error.message
-    // console.log(classes);
+    console.log(classes);
 
     return (
         <div className="py-12 bg-gray-100">

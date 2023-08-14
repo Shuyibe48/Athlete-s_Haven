@@ -1,6 +1,6 @@
 import BannerSection from "../../../components/BannerSection";
 import PopularClasses from "../../../components/PopularClasses";
-import PopularInstructors from "../../../components/PopularInstractos";
+import PopularInstructor from "../../../components/PopularInstructor";
 import Slider from "../../../components/Slider";
 
 const Home = () => {
@@ -10,7 +10,7 @@ const Home = () => {
                 <Slider />
                 <PopularClasses />
                 <BannerSection />
-                <PopularInstructors />
+                <PopularInstructor />
             </div>
         </>
     );
